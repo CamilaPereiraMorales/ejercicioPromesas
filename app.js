@@ -8,9 +8,11 @@ function animateElement(element, start, end, duration){
             const currentPosition = start + delta * counter++;//posicion en donde quedo luego de hacer el primer movimiento
             element.style.left = currentPosition;
             if(start < end && currentPosition >= end){
+                element.style.left = currentPosition;
                 clearInterval(loop);
                 resolve(); //Llama a then cuando termina la animación
             }else if(start > end && currentPosition <= end){
+                element.style.left = currentPosition;
                 clearInterval(loop);
                 resolve(); //Llama a then cuando termina la animación
             }                       
@@ -26,9 +28,11 @@ function animateElementTop(element, start, end, duration){
             const currentPosition = start + delta * counter++;//posicion en donde quedo luego de hacer el primer movimiento
             element.style.top = currentPosition;
             if(start < end && currentPosition >= end){
+                element.style.top = currentPosition;
                 clearInterval(loop);
                 resolve(); //Llama a then cuando termina la animación
             }else if(start > end && currentPosition <= end){
+                element.style.top = currentPosition;
                 clearInterval(loop);
                 resolve(); //Llama a then cuando termina la animación
             }                       
@@ -39,22 +43,24 @@ function animateElementTop(element, start, end, duration){
 const allImg = document.getElementsByTagName("img");
 
 Promise.all([
-    animateElement(allImg[0], 0, 600, 3000),
-    animateElement(allImg[1], 0, 600, 6000)
+    animateElement(allImg[0], 100, 1000, 3000),
+    animateElement(allImg[1], 100, 1000, 3500)
 ]).then(()=>{
     console.log("Terminaron AMBAS animaciones");
     return Promise.all([ //Retornar promesa que se ejecutará en el próximo then
-        animateElementTop(allImg[0],0, 600, 3000),
-        animateElementTop(allImg[1],0, 600, 6000)
+        animateElementTop(allImg[0],100, 500, 3000),
+        animateElementTop(allImg[1],100, 500, 3500)
     ]);
 }).then(()=>{
-    animateElement(allImg[0], 600, 0, 3000),
-    animateElement(allImg[1], 600, 0, 6000)
-
+    return Promise.all([
+    animateElement(allImg[0], 1000, 100, 3500),
+    animateElement(allImg[1], 1000, 100, 3000)
+    ]);
 }).then(()=>{
-    animateElementTop(allImg[0],600, 0, 3000),
-    animateElementTop(allImg[1],600, 0, 6000)
-
+    return Promise.all([
+    animateElementTop(allImg[0], 500, 100, 3800),
+    animateElementTop(allImg[1], 500, 100, 3000)
+    ]);
 }).then(()=>{
    
     console.log("Doge y cate se devolvieron");
